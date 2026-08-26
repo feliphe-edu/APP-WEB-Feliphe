@@ -1,0 +1,72 @@
+﻿@page "/processos"
+@rendermode InteractiveServer
+@inject ProcessoDAO dao;
+
+<PageTitle>Processos - Sistema de Controle de Processos</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Consulta de Processos</h2>
+    </div>
+</div>
+
+<div class="custom-table-card">
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Número</th>
+                    <th>Interessado</th>
+                    <th>Assunto</th>
+                    <th>Situação</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+
+                @foreach (var p in processos)
+                {
+
+                    <tr>
+                        <td>@p.Id</td>
+                        <td>@p.Numero</td>
+                        <td>@p.Interessado</td>
+                        <td class="text-truncate">@p.Assunto</td>
+                        <td>
+                            <i class="bi bi-clock"></i> @p.Situacao
+                        </td>
+                        <td class="text-end">
+                            <div class="btn-group btn-group-sm">
+                                <a href="#" class="btn btn-light border text-primary" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="#" class="btn btn-light border text-danger" title="Excluir">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+
+    private List<Processo>? processos;
+
+    protected override void OnInitialized()
+    {
+        CarregarProcessos();
+    }
+
+    private void CarregarProcessos()
+    {
+        processos = dao.Listar();
+    }
+}
